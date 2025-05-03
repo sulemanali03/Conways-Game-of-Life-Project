@@ -1,0 +1,227 @@
+import javax.swing.*;
+import java.awt.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
+public class GUI_Prototype{
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> new GUI_Prototype().createGUI());
+    }
+
+    private void createGUI() {
+        JFrame frame = new JFrame("Conways Game of Life");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(1200, 600);
+        frame.setLayout(new BorderLayout());
+
+        // Create the tabbed pane for grouping options
+        JTabbedPane tabbedPane = new JTabbedPane();
+
+        // Tab 1: Parameters
+        JPanel parametersPanel = new JPanel();
+        parametersPanel.setLayout(new BoxLayout(parametersPanel, BoxLayout.Y_AXIS));
+        
+        //Button Panel
+        JPanel buttonPanel = new JPanel();
+        JButton randomButton = new JButton("Initialize Random");
+        JButton nextButton = new JButton("Next");
+        JButton prevButton = new JButton("Previous");
+        JButton playPauseButton = new JButton("Play/Pause");
+        JButton resetButton = new JButton("Reset");
+        buttonPanel.add(randomButton);
+        buttonPanel.add(playPauseButton);
+        buttonPanel.add(nextButton);
+        buttonPanel.add(prevButton);
+        buttonPanel.add(resetButton);
+        
+        parametersPanel.add(buttonPanel);
+        
+
+        // Grid Dimension Selection
+        JPanel gridDimensionPanel = new JPanel();
+        gridDimensionPanel.setBorder(BorderFactory.createTitledBorder("Grid Dimension"));
+
+        
+        JRadioButton rb1D = new JRadioButton("1D Grid");
+        JRadioButton rb2D = new JRadioButton("2D Grid");
+
+        
+
+        ButtonGroup gridDimensionGroup = new ButtonGroup();
+        
+        gridDimensionGroup.add(rb1D);
+        gridDimensionGroup.add(rb2D);
+        gridDimensionPanel.add(rb1D);
+        gridDimensionPanel.add(rb2D);
+        parametersPanel.add(gridDimensionPanel);
+        
+        JPanel GridSize = new JPanel();
+        GridSize.setBorder(BorderFactory.createTitledBorder("Grid Size"));
+        //GridSize.setLayout(new BoxLayout(GridSize,BoxLayout.Y_AXIS));
+
+
+        JSlider gridSizeSlider = new JSlider(0,100,20);
+        gridSizeSlider.setPreferredSize(new Dimension(400, 50));  // Set width to 400
+        gridSizeSlider.setPaintLabels(true);
+        gridSizeSlider.setPaintTicks(true);
+        gridSizeSlider.setMajorTickSpacing(10);
+        
+        
+        GridSize.add(gridSizeSlider);
+        
+        parametersPanel.add(GridSize);
+        
+        
+        
+        // Simulation Speed Selection with Label Below Slider
+        JPanel speedPanel = new JPanel();
+        speedPanel.setBorder(BorderFactory.createTitledBorder("Simulation Speed"));
+
+        // Create the slider with range from 1 to 10, initial value 5
+        JSlider speedSlider = new JSlider(1, 10, 5);
+        speedSlider.setPaintTicks(true);
+        speedSlider.setMajorTickSpacing(1);
+        speedSlider.setPaintLabels(true);
+
+        // Create a non-editable JTextField to display the current value of the slider
+        JTextField speedTextField = new JTextField("Speed: " + speedSlider.getValue());
+        speedTextField.setEditable(false);  // Make the text field non-editable
+        speedTextField.setHorizontalAlignment(JTextField.CENTER);
+        speedTextField.setPreferredSize(new Dimension(100, 30)); // Set a preferred size for the text field
+
+        // Add a ChangeListener to the slider to update the text field as the slider value changes
+        speedSlider.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                // Update the text field with the current value of the slider
+                speedTextField.setText("Speed: " + speedSlider.getValue());
+            }
+        });
+
+        // Add the slider and text field to the speed panel
+        speedPanel.add(speedSlider);
+        speedPanel.add(speedTextField);
+        parametersPanel.add(speedPanel);
+
+        // Cell Display Format 
+        JPanel displayFormatPanel = new JPanel();
+        displayFormatPanel.setBorder(BorderFactory.createTitledBorder("Cell Display Format"));
+        JRadioButton rbBlackAndWhite = new JRadioButton("Black and White");
+        JRadioButton rbNumberFormat = new JRadioButton("Number Format");
+        //JColorChooser customDead = new JColorChooser();
+        ButtonGroup displayFormatGroup = new ButtonGroup();
+        displayFormatGroup.add(rbBlackAndWhite);
+        displayFormatGroup.add(rbNumberFormat);
+        displayFormatPanel.add(rbBlackAndWhite);
+        displayFormatPanel.add(rbNumberFormat);
+        //displayFormatPanel.add(customDead);
+        parametersPanel.add(displayFormatPanel);
+
+        // Add Parameters tab to tabbed pane
+        tabbedPane.addTab("Parameters", parametersPanel);
+
+        // Tab 2: Simulation
+        
+        /*
+        JPanel simulationPanel = new JPanel();
+        simulationPanel.setLayout(new BoxLayout(simulationPanel, BoxLayout.Y_AXIS));
+
+        // Control Buttons
+        JPanel buttonPanel = new JPanel();
+        JButton randomButton = new JButton("Random Init");
+        JButton nextButton = new JButton("Next");
+        JButton prevButton = new JButton("Previous");
+        JButton playPauseButton = new JButton("Play/Pause");
+        JButton resetButton = new JButton("Reset");
+        buttonPanel.add(randomButton);
+        buttonPanel.add(playPauseButton);
+        buttonPanel.add(nextButton);
+        buttonPanel.add(prevButton);
+        buttonPanel.add(resetButton);
+        simulationPanel.add(buttonPanel);
+
+        // Add Simulation tab to tabbed pane
+        tabbedPane.addTab("Simulation", simulationPanel);
+		
+		*/
+		
+        // Tab 3: Visualization
+        JPanel visualizationPanel = new JPanel();
+        visualizationPanel.setLayout(new BoxLayout(visualizationPanel, BoxLayout.Y_AXIS));
+
+        // Placeholder for future visualization options
+        JPanel customColorPanel = new JPanel();
+        customColorPanel.setBorder(BorderFactory.createTitledBorder("Custom Colors"));
+        customColorPanel.add(new JLabel("Color Picker (Not Implemented)"));
+        JColorChooser customColor = new JColorChooser();
+        customColorPanel.add(customColor);
+        visualizationPanel.add(customColorPanel);
+
+        // Add Visualization tab to tabbed pane
+        tabbedPane.addTab("Visualization", visualizationPanel);
+
+        // Tab 4: Statistics
+        JPanel statisticsPanel = new JPanel();
+        statisticsPanel.setLayout(new BoxLayout(statisticsPanel, BoxLayout.Y_AXIS));
+
+        // Add labels for statistics 
+        JLabel deadCellsLabel = new JLabel("Dead Cells: 0");
+        JLabel aliveCellsLabel = new JLabel("Alive Cells: 0");
+        JLabel populationLabel = new JLabel("Population: 0");
+        JLabel percentageLabel = new JLabel("Percentage of Grid Used: 0%");
+
+        // Add padding between labels
+        deadCellsLabel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
+        aliveCellsLabel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
+        populationLabel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
+        percentageLabel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
+
+        statisticsPanel.add(deadCellsLabel);
+        statisticsPanel.add(aliveCellsLabel);
+        statisticsPanel.add(populationLabel);
+        statisticsPanel.add(percentageLabel);
+
+        // Add Statistics tab to tabbed pane
+        tabbedPane.addTab("Statistics", statisticsPanel);
+
+        // Tab 5: Import/Export
+        JPanel importExportPanel = new JPanel();
+        importExportPanel.setLayout(new BoxLayout(importExportPanel, BoxLayout.Y_AXIS));
+
+
+
+        // Add Import/Export tab to tabbed pane
+        tabbedPane.addTab("Import/Export", importExportPanel);
+
+        // Add the tabbedPane to the frame on the right (instead of left)
+        tabbedPane.setPreferredSize(new Dimension(600, frame.getHeight()));
+        frame.add(tabbedPane, BorderLayout.EAST);
+
+        // Grid Display with smaller size and gray background, positioned on the left
+        JPanel gridPanel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                int rows = 6, cols = 6; // Smaller grid dimensions
+                int cellWidth = getWidth() / cols;
+                int cellHeight = getHeight() / rows;
+                for (int i = 0; i < rows; i++) {
+                    for (int j = 0; j < cols; j++) {
+                        g.drawRect(j * cellWidth, i * cellHeight, cellWidth, cellHeight);
+                    }
+                }
+            }
+        };
+        
+        gridPanel.setBorder(BorderFactory.createLineBorder(Color.white));
+        gridPanel.setBackground(Color.LIGHT_GRAY);
+        gridPanel.setPreferredSize(new Dimension(550, 550));
+        gridPanel.setBorder(BorderFactory.createTitledBorder("Grid Display"));
+        
+        frame.add(gridPanel, BorderLayout.WEST);
+
+        // Show the frame
+        frame.setVisible(true);
+    }
+}

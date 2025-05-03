@@ -1,0 +1,13 @@
+Proof of concept prototype
+**AIM:** get the simple 256x256 1D Wolfram cellular automata running
+- Create a basic Java display using Java Swing
+- Make a panel with a 256x256 state grid where each state can be either black or white
+- Create a simple control panel with the following elements
+    - Selection of rule 0 - 255
+    - Start simulation
+    - Pause simulation 
+    - Reset simulation
+    - Next step
+- Allow for setting of the initail conditions in the first row of 256 cells
+- Implement Wolfram's 1D rules.
+- Test with various rules. Rule 30 and 110 are pretty interesting.
